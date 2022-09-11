@@ -1,0 +1,22 @@
+.daily-forecaste {
+    // display: flex;
+    margin: 10px;
+    padding: 20px;
+    // border-radius: 15%;
+    // background-color: rgb(53, 53, 53,0.3);
+    transition: border-color .3s, background-color .3s, color .3s;
+    text-align: center;
+    // cursor: pointer;
+
+    // &:hover {
+    //     background-color: rgb(98, 223, 245, 0.5);
+    // }
+    h2 {
+        text-transform: uppercase;
+    }
+    img {
+        width: 75px + 15px;
+        height: 45px + 15px;
+        margin-top: 20px;
+    }
+}

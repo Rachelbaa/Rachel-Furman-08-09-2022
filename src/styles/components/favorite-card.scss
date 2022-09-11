@@ -1,0 +1,108 @@
+.favorite-card {
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    min-width: 200px;
+    height: 400px;
+    color: white;
+    margin: 30px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    text-align: center;
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    border-radius: 8px;
+
+    // width: 100%;
+    &.img-1 {
+        background-image: url('@/assets/favorites-bg/1.jpg');
+    }
+
+    &.img-2 {
+        background-image: url('@/assets/favorites-bg/2.jpg');
+    }
+
+    &.img-3 {
+        background-image: url('@/assets/favorites-bg/3.jpg');
+    }
+
+    &.img-0 {
+        background-image: url('@/assets/favorites-bg/0.jpg');
+    }
+
+    &.lightTheme {
+        background-color: rgba(221, 221, 221, 0.9);
+
+        .future-details-container {
+            background-color: #ffffffc7;
+            padding: 10px 10px;
+
+            div {
+                margin-bottom: 5px;
+                color: grey
+            }
+
+            img {
+                width: 35px;
+                display: block;
+            }
+
+        }
+
+    }
+
+    &.darkTheme {
+        background-color: rgba(37, 37, 37, 0.8);
+
+        .future-details-container {
+            background-color: rgba(37, 37, 37, 0.8);
+            padding: 10px 10px;
+
+            div {
+                margin-bottom: 5px;
+                color: #c0c0c0
+            }
+
+            img {
+                width: 35px;
+                display: block;
+            }
+
+        }
+
+    }
+
+    .curr-day-details-container {
+        div:first-child {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        div p {
+            // background-color: purple;
+            font-size: 40px;
+        }
+    }
+
+    button {
+        background-color: transparent;
+        color: grey;
+        border: none;
+        width: 40px;
+        font-size: 1.3rem;
+        position: absolute;
+        right: 2px;
+        top: 9px;
+        cursor: pointer;
+
+        &:hover {
+            color: rgb(255, 255, 255);
+        }
+    }
+
+
+}

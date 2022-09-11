@@ -1,0 +1,262 @@
+.weather-page {
+
+    @include for-Hnormal-layout {
+        // max-width: 1300px;
+        margin: 150px auto;
+    }
+    .search-input-container {
+        margin: 40px auto;
+        max-width: 500px;
+        position: relative;
+        cursor: pointer;
+
+        &.lightTheme {
+            color: black;
+        }
+
+        &.darkTheme {
+            color: #cecece;
+        }
+
+        .inputPH {
+            color: #cecece;
+            padding-top: 8px;
+            position: absolute;
+            transition: all .3s;
+            font-size: 20px;
+
+            &.isWriting {
+                transform: translateY(-22px);
+                font-size: 15px;
+                line-height: 20px;
+            }
+
+        }
+
+        input[type="text"] {
+            width: 100%;
+            color: #cecece;
+
+            border: none;
+            padding: 8px 0;
+            // margin: 8px 0;
+            min-width: 5px;
+            min-height: 20px;
+            font-size: 17px;
+            background-color: transparent;
+            line-height: 20px;
+            border-bottom: 2px solid #3a3a3a;
+            word-wrap: wrap;
+            // width: 100%;
+
+
+            // &.error-border {
+            //     border-bottom: 2px solid red;
+
+            //     &:focus-visible {
+            //         outline: none;
+            //         border-bottom: 2px solid red;
+
+            //     }
+            // }
+
+            &:focus-visible {
+                outline: none;
+                border-bottom: 2px solid #2596a5;
+            }
+
+            // &.dark {
+            //     color: $clr9;
+            //     background-color: #3b4a54;
+
+            // }
+        }
+
+        .dataList {
+            text-align: left;
+            width: 100%;
+            position: absolute;
+            max-height: 200px;
+            overflow-x: auto;
+            cursor: pointer;
+            
+            &.lightTheme {
+                color: black;
+                background-color: #ffffffc7;
+                .option {
+                    border-bottom: 1px solid black;
+                    padding: 10px;
+                    transition: border-color .3s, background-color .3s, color .3s;
+    
+                    &:hover {
+                        background-color: #3b4a54;
+                        color: white;
+                    }
+    
+                    h3 {
+                        margin: 0px;
+    
+                        .country {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
+
+            &.darkTheme {
+                color: #c0c0c0;
+                background-color: rgba(37, 37, 37, 0.8);
+                .option {
+                    border-bottom: 1px solid rgb(204, 204, 204);
+                    padding: 10px;
+                    transition: border-color .3s, background-color .3s, color .3s;
+    
+                    &:hover {
+                        background-color: #3b4a54;
+                        color: rgb(0, 0, 0);
+                    }
+    
+                    h3 {
+                        margin: 0px;
+    
+                        .country {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+            }
+
+          
+        }
+
+    }
+
+    .weather-container {
+        background-image: url('@/assets/background/appBG.jpg');
+        background-blend-mode: multiply;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 100%;
+        margin: 20px auto;
+        max-width: 800px;
+        border-radius: 10px;
+
+
+        &.lightTheme {
+            background-color: rgba(221, 221, 221, 0.9);
+        }
+
+        &.darkTheme {
+            background-color: rgba(37, 37, 37, 0.8);
+        }
+
+        @include for-narrow-layout {
+            margin: 20px;
+        }
+
+        @include for-normal-layout {
+            margin: 20px auto;
+        }
+
+        @include for-wide-layout {
+            // max-width: 1300px;
+            margin: 20px auto;
+        }
+
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px 30px 0px 30px;
+
+            .weatherInfo-container {
+                // display: flex;
+
+                .imageWeather-container {
+                    display: flex;
+                    flex-direction: column;
+
+                    img {
+                        margin: 10px 0px;
+                        width: 85px + 40px;
+                        // height: 45px + 30px;
+                        float: left;
+                    }
+
+                    p {
+                        text-align: left;
+                        margin-left: 8px;
+                        font-size: 1.3rem;
+                    }
+                }
+
+                .weather-info {
+                    text-align: left;
+                    margin-top: 7px;
+
+                    :first-child {
+                        font-size: 3rem;
+
+                        span {
+                            font-size: 2.5rem;
+                        }
+                    }
+
+                    :last-child {
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+
+            .weatherInfo2-container {
+                display: flex;
+                flex-direction: column;
+                align-items: end;
+
+                .addF-container {
+                    img {
+                        width: 35px;
+                        height: 35px;
+                        margin-top: 14px;
+                        cursor: pointer;
+                    }
+
+                    div {
+                        font-size: 0.8rem;
+                        cursor: pointer;
+                        margin: 17px 11px 10px 15px;
+                        width: 127.5px;
+
+                        &:hover {
+                            color: red;
+                        }
+                    }
+                }
+
+                .temp-container {
+                    font-size: 5rem;
+                    margin: 5px 20px;
+                }
+            }
+
+        }
+    }
+
+
+    .futureWeather-container {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+
+        &.lightTheme {
+            background-color: rgba(180, 180, 180, 0.5);
+        }
+
+        &.darkTheme {
+            background-color: rgb(59, 74, 84, 0.9);
+            // background-color: rgba(37, 37, 37, 0.8);
+        }
+    }
+}
