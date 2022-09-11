@@ -4,7 +4,7 @@ import { IDailyForecasts, IMainWeather, ISearchResult } from '@/interfaces/weath
 
 export class WeatherAPIService {
 
-    private apiKey: string = 'eokdHD39sJEVmIcVIjDBQkoO9Nu42fx9';
+    private apiKey: string = 'wqE3V5s4Zvv4efuLLuyfFbGJvfXJm3p4';
     private defaultUrl: string = 'http://dataservice.accuweather.com'
     
     async getAutoComplete(text: string) {
