@@ -4,19 +4,18 @@ import router from './router'
 import store from './store';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import vueDebounce from 'vue-debounce'
-
-// import mitt from "mitt";
-// const emitter = mitt();
-// const app = createApp(App);
-// app.config.globalProperties.emitter = emitter;
+import vueDebounce from 'vue-debounce';
+import PerfectScrollbar from 'vue2-perfect-scrollbar';
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css';
 export const EventBus = new Vue();
+
 
 //STYLES
 import "./styles/styles.scss"
 
 Vue.use(ElementUI);
 Vue.use(vueDebounce)
+Vue.use(PerfectScrollbar)
 
 
 Vue.config.productionTip = false

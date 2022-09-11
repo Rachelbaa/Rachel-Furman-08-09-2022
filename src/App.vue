@@ -1,6 +1,6 @@
 <template>
   <div id="app" >
-    <ColorPicker @hoverColor="hoverColor" @unhoverColor="unhoverColor" class="colorPicker" @setedColor="closePicker" v-if="colorPickerClicked"></ColorPicker>
+      <ColorPicker @hoverColor="hoverColor" @unhoverColor="unhoverColor" class="colorPicker" @setedColor="closePicker" v-if="colorPickerClicked"></ColorPicker>
     <div class="app-container" :class="color">
       <header :class="setBgcColor">
         <svg class="navBar-icon" @click.prevent="colorPickerClicked = !colorPickerClicked" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 7h14c.6 0 1-.4 1-1s-.4-1-1-1H5c-.6 0-1 .4-1 1s.4 1 1 1zm0 6h14c.6 0 1-.4 1-1s-.4-1-1-1H5c-.6 0-1 .4-1 1s.4 1 1 1zm0 6h14c.6 0 1-.4 1-1s-.4-1-1-1H5c-.6 0-1 .4-1 1s.4 1 1 1z" /></svg>
@@ -10,7 +10,6 @@
             inactive-value="c"></el-switch>
           <span :class="(clickedTemp ==='f')?'clickedTemp':''">°F</span>
         </div>
-        <!-- <p @click.prevent="colorPickerClicked = false">close</p> -->
         <nav>
           <router-link to="/">Weather</router-link>
           <router-link to="/favorites">Favorites</router-link>
@@ -46,7 +45,6 @@ export default {
       if (num <= 5 || num >= 20) {
         className += ' darkTheme'
       }
-      // this.color = className;
       this.color = className;
       this.$store.commit({ type: 'setBgc', color: this.color })
       this.$store.commit({ type: 'setColorNum', num })
@@ -78,7 +76,7 @@ export default {
     setBgcColor():string {
       let num = this.$store.getters.colorNum;
       return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
-    },
+    }
 
   },
   components: { ColorPicker }

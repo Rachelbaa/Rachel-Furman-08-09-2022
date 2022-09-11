@@ -1,7 +1,7 @@
 .favorite-card {
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
-    min-width: 200px;
+    min-width: 300px;
     height: 400px;
     color: white;
     margin: 30px;
@@ -16,8 +16,20 @@
     background-position: center;
     position: relative;
     border-radius: 8px;
+    width: 88vw;
+    
+    @include for-narrow-layout {
+        width: 30vw;        
+    }
+    
+    @include for-normal-layout {
+        width: 30vw;
+    }
 
-    // width: 100%;
+    @include for-wide-layout {
+       width: 45vw; 
+    }
+
     &.img-1 {
         background-image: url('@/assets/favorites-bg/1.jpg');
     }
@@ -61,6 +73,8 @@
         .future-details-container {
             background-color: rgba(37, 37, 37, 0.8);
             padding: 10px 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
 
             div {
                 margin-bottom: 5px;
@@ -83,7 +97,6 @@
         }
 
         div p {
-            // background-color: purple;
             font-size: 40px;
         }
     }

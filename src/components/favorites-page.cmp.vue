@@ -1,8 +1,9 @@
 <template>
+  <perfect-scrollbar>
   <section class="favorites-page">
       <favorite-card v-for="(favoriteCity, idx) in getFavorites" :cityData="favoriteCity" :key="idx"></favorite-card>
-
   </section>
+</perfect-scrollbar>
 </template>
 
 <script lang="ts">
@@ -13,23 +14,16 @@ export default {
     return {
       favorites: [] as IFullCityData[]
     }
-  }
-  ,
+  },
   created() {
     this.favorites = this.$store.getters.favorites
 
   },
   computed: {
-    getFavorites() {
+    getFavorites():IFullCityData[] {
       return this.$store.getters.favorites
     }
   },
-
-  methods: {
-
-  },
-
-
   components: {
     favoriteCard
   }

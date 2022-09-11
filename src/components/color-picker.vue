@@ -2,7 +2,8 @@
     <section class="color-picker">
         <div v-for="option of 25" class="sky-gradient" @mouseover="hoverColor(option-1)"
             @mouseleave="unHoverColor" @click.prevent="setColor(option-1)" :class="optionNum(option-1)">
-            {{formatTime(option-1)}}:00</div>
+            {{formatTime(option-1)}}:00
+        </div>
     </section>
 </template>
     
@@ -54,9 +55,6 @@ export default {
             this.$store.commit({ type: 'setBgc', color: className })
             this.$store.commit({ type: 'setColorNum', num })
         }
-    },
-    computed: {
-
     }
 
 }

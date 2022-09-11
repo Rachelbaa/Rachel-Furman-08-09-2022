@@ -5,10 +5,8 @@ import { IDailyForecasts, IMainWeather, ISearchResult } from '@/interfaces/weath
 export class WeatherAPIService {
 
     private apiKey: string = 'wqE3V5s4Zvv4efuLLuyfFbGJvfXJm3p4';
-    private defaultUrl: string = 'https://dataservice.accuweather.com'
-    constructor() {
-        console.log("🚀 ~ file: weather.api.service.ts ~ line 9 ~ WeatherAPIService ~ defaultUrl", this.defaultUrl)
-    }
+    private defaultUrl: string = 'https://dataservice.accuweather.com';
+
     async getAutoComplete(text: string) {
         const url = this.defaultUrl + `/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${text}`
         const res = await axios.get(url)

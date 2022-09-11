@@ -1,8 +1,7 @@
 <template>
+  <perfect-scrollbar>
   <section class="weather-page" v-if="weatherCard">
-    
     <div class="weather-container" :class="setBgcColor">
-      <!-- <div class="bgc"></div> -->
       <div class="header">
         <div class="weatherInfo-container">
           <div class="weather-info">
@@ -32,16 +31,14 @@
               </div>
             </div>
           </div>
-          <!-- <div v-if="!reactiveIsFavorites" @click.prevent="toggleFav">Add to favorites</div>
-          <div v-else @click.prevent="toggleFav">Remove from favorites</div> -->
         </div>
-        
       </div>
       <div class="futureWeather-container" :class="setBgcColor">
         <dailyForecast class="dailyForecast" v-for="num in 5" :weather="weatherCard.dailyForecasts[num-1]"/>
       </div>
     </div>
   </section>
+</perfect-scrollbar>
 </template>
 
 <script lang="ts">
