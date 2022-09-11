@@ -74,7 +74,6 @@ export default {
         return;
       }
       this.weatherCard = this.$store.getters.defaultCard;
-      // console.log("🚀 ~ file: weather-page.cmp.vue ~ line 71 ~ loadWeatherCard ~ this.weatherCard", this.weatherCard)
     },
     async searchForCities() {
       if(this.city === '' || this.city === null) {
@@ -82,7 +81,6 @@ export default {
         return;
       } 
       this.cityListRender = await this.$store.dispatch({type:'searchCities', text: this.city})
-      // console.log("🚀 ~ file: weather-page.cmp.vue ~ line 66 ~ searchForCities ~ cityListRender", JSON.parse(JSON.stringify(this.cityListRender)))
     },
     async makeCard(cardInfo: object) {
       this.city = null;
@@ -131,7 +129,6 @@ export default {
     },
     setBgcColor() {
       let num = this.$store.getters.colorNum;
-      console.log("🚀 ~ file: weather-page.cmp.vue ~ line 126 ~ setBgcColor ~ num", num)
       return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
     },
     setDate() {

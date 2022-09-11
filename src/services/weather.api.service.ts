@@ -11,12 +11,10 @@ export class WeatherAPIService {
         const url = this.defaultUrl + `/locations/v1/cities/autocomplete?apikey=${this.apiKey}&q=${text}`
         const res = await axios.get(url)
         const cities: ISearchResult[] = res.data;
-        console.log("🚀 ~ file: weather.api.service.ts ~ line 14 ~ WeatherAPIService ~ getAutoComplete ~ cities", cities)
         return cities
     }
     
     async getCurrentConditions(key: string) {
-        console.log("🚀 ~ file: weather.api.service.ts ~ line 8 ~ WeatherAPIService ~ apiKey", process.env)
         const url = this.defaultUrl + `/currentconditions/v1/${key}?apikey=${this.apiKey}`
         const res = await axios.get(url)
         const currWeather: IMainWeather = res.data[0];

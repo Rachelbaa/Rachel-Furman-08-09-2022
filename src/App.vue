@@ -47,7 +47,7 @@ export default {
         className += ' darkTheme'
       }
       // this.color = className;
-      this.color = 'sky-gradient-18';
+      this.color = className;
       this.$store.commit({ type: 'setBgc', color: this.color })
       this.$store.commit({ type: 'setColorNum', num })
     },
@@ -77,7 +77,6 @@ export default {
   computed: {
     setBgcColor():string {
       let num = this.$store.getters.colorNum;
-      console.log("🚀 ~ file: weather-page.cmp.vue ~ line 126 ~ setBgcColor ~ num", num)
       return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
     },
 

@@ -73,7 +73,6 @@ export default {
       return this.$store.getters.tempType;
     },
     setRandomImageClass() {
-      console.log("🚀 ~ file: favorite-card.cmp.vue ~ line 77 ~ setRandomImageClass ~ this.getRandomInt(4)", this.getRandomInt(4))
       return `img-${this.getRandomInt(4)}`;
     }
   },
@@ -95,7 +94,6 @@ export default {
     },
     setBgcColor() {
       let num = this.$store.getters.colorNum;
-      console.log("🚀 ~ file: weather-page.cmp.vue ~ line 126 ~ setBgcColor ~ num", num)
       return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
     },
     getRandomInt(max:number) {
