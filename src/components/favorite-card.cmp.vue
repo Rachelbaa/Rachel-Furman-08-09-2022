@@ -1,7 +1,7 @@
 <template>
   <section class="favorites-card">
     <div @click.stop="setCurrCard" class="favorite-card" :class="[setRandomImageClass, setBgcColor()]">
-      <button @click="removeFromFavorites">X</button>
+      <button @click.stop="removeFromFavorites">X</button>
       <div class="curr-day-details-container">
         <div> {{cityData.mainWeather.WeatherText}} </div>
         <div> {{cityData.locationData.LocalizedName}} </div>

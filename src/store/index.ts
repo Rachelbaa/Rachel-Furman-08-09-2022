@@ -53,7 +53,7 @@ export default new Vuex.Store({
       
     },
     removeCardFromFavorites(state, {cardIdx}) {
-      state.favorites.splice(cardIdx)
+      state.favorites.splice(cardIdx, 1)
 
     },
     setCurrCard(state, {cityWeather}) {
