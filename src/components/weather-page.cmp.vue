@@ -1,61 +1,26 @@
 <template>
   <perfect-scrollbar>
-  <section class="weather-page" v-if="weatherCard">
-    <div class="weather-container" :class="setBgcColor">
-      <div class="header">
-        <div class="weatherInfo-container">
-          <div class="weather-info">
-            <p>{{weatherCard.locationData.LocalizedName}}, <span>{{weatherCard.locationData.Country.LocalizedName}}</span></p>
-            <p class="date">{{setDate}}</p>
-          </div>
-          <div class="imageWeather-container">
-            <img :src="require(`@/assets/icons/${weatherCard.mainWeather.WeatherIcon}.png`)" :alt="weatherCard.mainWeather.WeatherText">
-            <p>{{weatherCard.mainWeather.WeatherText}}</p>
-          </div>
-        </div>
-        <div class="weatherInfo2-container">
-          <div class="addF-container">
-            <img v-if="reactiveIsFavorites" @click.prevent="toggleFav" src="../assets/icons/heart.png" alt="heart">
-            <img v-else @click.prevent="toggleFav" src="../assets/icons/empty-heart.png" alt="empty-heart">
-          </div>
-          <div class="temp-container">
-            <p v-if="tempType === 'c'">{{weatherCard.mainWeather.Temperature.Metric.Value}} °C </p>
-            <p v-else>{{weatherCard.mainWeather.Temperature.Imperial.Value}} °F</p>
-          </div>
-          <div class="search-input-container" :class="setBgcColor">
-            <span class="inputPH" :class="(isWriting) ? 'isWriting' : ''" @click.prevent="setInput">Search city</span>
-            <input type="text" ref="searchCity" v-model="city" v-debounce:400ms="searchForCities" @input="setIsWriting"/>
-            <div v-if="cityListRender" class="dataList"  :class="setBgcColor">
-              <div class="option" v-for="city in cityListRender" @click.prevent="makeCard(city)" :value="city.LocalizedName">
-                <h3>{{city.LocalizedName}}, <span class="country">{{city.Country.LocalizedName}} </span></h3>
-              </div>
-            </div>
-          </div>
+    <section class="weather-page" v-if="weatherCard">
+      <div class="weather-container" :class="setBgcColor">
+        <WeatherHeader :weatherCard="weatherCard" />
+        <div class="futureWeather-container" :class="setBgcColor">
+          <DailyForecast class="dailyForecast" v-for="num in 5" :weather="weatherCard.dailyForecasts[num-1]" />
         </div>
       </div>
-      <div class="futureWeather-container" :class="setBgcColor">
-        <dailyForecast class="dailyForecast" v-for="num in 5" :weather="weatherCard.dailyForecasts[num-1]"/>
-      </div>
-    </div>
-  </section>
-</perfect-scrollbar>
+    </section>
+  </perfect-scrollbar>
 </template>
 
 <script lang="ts">
-import dailyForecast from '../components/daily-forecast.cmp.vue';
-import moment from 'moment';
+import DailyForecast from './Daily-forecast.cmp.vue';
+import WeatherHeader from './Weather-header.cmp.vue';
 
 
 export default {
   name: 'weather-page',
   data() {
     return {
-      city: '',
-      isF: this.isFavorite(),
-      imageW: '',
-      isWriting: false,
       weatherCard: null,
-      cityListRender: [],
     }
   },
   created() {
@@ -63,83 +28,117 @@ export default {
   },
   methods: {
     async loadWeatherCard() {
-      await this.$store.dispatch({type:'loadDefaultCard'})
-      const selectedCard =  this.$store.getters.currCard;
+      await this.$store.dispatch({ type: 'loadDefaultCard' })
+      const selectedCard = this.$store.getters.currCard;
       JSON.parse(JSON.stringify(selectedCard))
       if (selectedCard && selectedCard?.locationData?.Key) {
         this.weatherCard = selectedCard;
         return;
       }
       this.weatherCard = this.$store.getters.defaultCard;
-    },
-    async searchForCities() {
-      if(this.city === '' || this.city === null) {
-        this.cityListRender = [];
-        return;
-      } 
-      this.cityListRender = await this.$store.dispatch({type:'searchCities', text: this.city})
-    },
-    async makeCard(cardInfo: object) {
-      this.city = null;
-      this.isWriting = false;
-      this.cityListRender = [];
-      const isFCard = this.isFavorite(cardInfo.Key);
-      const isDCard = this.isDefault(cardInfo.Key);
-      if(isFCard) {
-        this.weatherCard = isFCard
-      }else if (isDCard){
-        this.weatherCard = isDCard
-      }else {
-        const newCityCard = await this.$store.dispatch({type:'getCityWeather', cardInfo: cardInfo})
-        this.weatherCard = newCityCard;
-
-      }      
-    },
-    toggleFav() {
-     this.$store.dispatch({type:'toggleFavorite',currCard: this.weatherCard});
-    },
-    setIsWriting(ev) {
-      this.isWriting = (ev.target.value === '') ? false : true;      
-    },
-    setInput() {
-      this.$refs['searchCity'].focus();
-    },
-    isFavorite(key?: string){
-     const searchBy = (key) ? key : this.weatherCard?.locationData?.Key
-     const favorites = this.$store.getters.favorites
-      if (this.weatherCard) {
-        const cardIdx = favorites.findIndex((fav)=>fav.locationData.Key === searchBy)
-        return (cardIdx > -1) ? favorites[cardIdx] : false ;
-      }
-    },
-    isDefault(key?: string) {
-      const card = JSON.parse(localStorage.getItem('defaultCard') as string)
-      return (key === card.locationData.Key) ? card : false;
     }
   },
   computed: {
-    tempType() {
-      return this.$store.getters.tempType;
-    },
-    reactiveIsFavorites(){
-      return this.isFavorite()
-    },
     setBgcColor() {
       let num = this.$store.getters.colorNum;
       return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
-    },
-    setDate() {
-      let date = this.weatherCard.mainWeather.LocalObservationDateTime;
-      return moment(date).format('LL');
     }
-
   },
   components: {
-    dailyForecast
+    DailyForecast,
+    WeatherHeader
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import "./src/styles/setup/_mixins.scss";
+@import "./src/styles/setup/_typography.scss";
+@import "./src/styles/setup/_variables.scss";
+
+.ps {
+  height: 90vh;
+}
+
+@include for-Hnormal-layout {
+  .ps {
+    height: 93.6vh;
+  }
+}
+
+.weather-page {
+
+  @include for-Hnormal-layout {
+    margin: 0;
+    height: 93.6vh;
+
+    @include for-normal-layout {
+      margin: 150px auto;
+      height: auto;
+    }
+
+  }
+
+  .weather-container {
+    background-image: url('@/assets/background/appBG.jpg');
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 90vh;
+
+    @include for-Hnormal-layout {
+      height: 93.6vh;
+    }
+
+
+    &.lightTheme {
+      background-color: rgba(221, 221, 221, 0.9);
+    }
+
+    &.darkTheme {
+      background-color: rgba(37, 37, 37, 0.8);
+    }
+
+    @include for-normal-layout {
+      margin: 20px auto;
+      max-width: 800px;
+      border-radius: 10px;
+      height: auto;
+    }
+
+    @include for-wide-layout {
+      max-width: 800px;
+      margin: 20px auto;
+
+    }
+
+
+  }
+  .futureWeather-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    @include for-narrow-layout {
+      flex-direction: row;
+    }
+
+    @include for-normal-layout {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    &.lightTheme {
+      background-color: rgba(180, 180, 180, 0.5);
+    }
+
+    &.darkTheme {
+      // background-color: rgb(59, 74, 84, 0.9);
+      background-color: rgb(28 31 32 / 90%);
+    }
+  }
+}
 </style>

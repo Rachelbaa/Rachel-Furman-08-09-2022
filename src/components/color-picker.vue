@@ -1,7 +1,7 @@
 <template>
     <section class="color-picker">
-        <div v-for="option of 25" class="sky-gradient" @mouseover="hoverColor(option-1)"
-            @mouseleave="unHoverColor" @click.prevent="setColor(option-1)" :class="optionNum(option-1)">
+        <div v-for="option of 25" class="sky-gradient" @mouseover="hoverColor(option-1)" @mouseleave="unHoverColor"
+            @click.prevent="setColor(option-1)" :class="optionNum(option-1)">
             {{formatTime(option-1)}}:00
         </div>
     </section>
@@ -20,7 +20,7 @@ export default {
         }
     },
     created() {
-      this.currColor = this.$store.getters.colorNum;
+        this.currColor = this.$store.getters.colorNum;
     },
     methods: {
         optionNum(num: number): string | number {
@@ -36,13 +36,13 @@ export default {
             if (time === 24) return '00'
             return time
         },
-        hoverColor(num:number) {
+        hoverColor(num: number) {
             this.$emit('hoverColor', num)
-            this.$store.commit({type:'setColorNum',num})
+            this.$store.commit({ type: 'setColorNum', num })
         },
         unHoverColor() {
             this.$emit('unhoverColor')
-            this.$store.commit({type:'setColorNum', num: this.currColor})
+            this.$store.commit({ type: 'setColorNum', num: this.currColor })
         },
         setColor(num) {
             this.currColor = num;
@@ -60,6 +60,43 @@ export default {
 }
 </script>
     
-    <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import "./src/styles/setup/_mixins.scss";
+@import "./src/styles/setup/_typography.scss";
+@import "./src/styles/setup/_variables.scss";
+
+.color-picker {
+
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.4s ease-out;
+    position: fixed;
+    z-index: 33;
+
+    @include for-normal-layout {
+        position: relative;
+        z-index: 0;
+    }
+    .sky-gradient {
+        color: black;
+        min-width: 250px;
+        height: 4%;
+        cursor: pointer;
+        transition:
+            box-shadow 150ms,
+            z-index 0ms;
+    }
+
+    .sky-gradient:hover {
+        box-shadow: 0 -5px 10px black;
+    }
+
+    .darkTheme {
+        color: rgb(167, 167, 167);
+    }
+
+}
 </style>

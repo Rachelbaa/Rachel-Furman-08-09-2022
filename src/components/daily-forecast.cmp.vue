@@ -61,6 +61,8 @@ export default {
                     break;
                 case 6:
                     this.day = "Sat";
+                default:
+                    this.day = "Happy Day";
             }
         },
         convertToC(num) {
@@ -77,5 +79,34 @@ export default {
 }
 </script>
     
-<style scoped>
+<style lang="scss" scoped>
+    @import "./src/styles/setup/_mixins.scss";
+    @import "./src/styles/setup/_variables.scss";
+
+    .daily-forecaste {
+    align-items: center;
+    padding: 7px 20px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    img {
+        width: 75px + 25px;
+        margin-top: 0px;
+    }
+    
+    @include for-narrow-layout {
+        padding: 20px;
+        text-align: center;
+        flex-direction: column;
+        img {
+            margin-top: 20px;
+        }
+    }
+
+    h2 {
+        text-transform: uppercase;
+    }
+
+
+}
 </style>

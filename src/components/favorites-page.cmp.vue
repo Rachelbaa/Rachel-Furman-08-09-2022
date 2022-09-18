@@ -1,14 +1,14 @@
 <template>
   <perfect-scrollbar>
-  <section class="favorites-page">
-      <favorite-card v-for="(favoriteCity, idx) in getFavorites" :cityData="favoriteCity" :key="idx"></favorite-card>
-  </section>
-</perfect-scrollbar>
+    <section class="favorites-page">
+      <Favorite-card v-for="(favoriteCity, idx) in getFavorites" :cityData="favoriteCity" :key="idx" />
+    </section>
+  </perfect-scrollbar>
 </template>
 
 <script lang="ts">
-import { IFullCityData } from '@/interfaces/weather-data.interface'
-import favoriteCard from './favorite-card.cmp.vue'
+import { IFullCityData } from '@/interfaces/weather-data.interface';
+import FavoriteCard from './Favorite-card.cmp.vue';
 export default {
   data() {
     return {
@@ -20,17 +20,33 @@ export default {
 
   },
   computed: {
-    getFavorites():IFullCityData[] {
+    getFavorites(): IFullCityData[] {
       return this.$store.getters.favorites
     }
   },
   components: {
-    favoriteCard
+    FavoriteCard
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import "./src/styles/setup/_mixins.scss";
+@import "./src/styles/setup/_variables.scss";
 
+.ps {
+  height: 90vh;
+}
+
+@include for-Hnormal-layout {
+  .ps {
+    height: 93.6vh;
+  }
+}
+
+.favorites-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 </style>

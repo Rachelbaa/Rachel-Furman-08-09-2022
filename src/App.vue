@@ -1,41 +1,28 @@
 <template>
-  <div id="app" >
-      <ColorPicker @hoverColor="hoverColor" @unhoverColor="unhoverColor" class="colorPicker" @setedColor="closePicker" v-if="colorPickerClicked"></ColorPicker>
+  <div id="app">
+    <ColorPicker @hoverColor="hoverColor" @unhoverColor="unhoverColor" class="colorPicker" @setedColor="closePicker" v-if="colorPickerClicked"/>
     <div class="app-container" :class="color">
-      <header :class="setBgcColor">
-        <svg class="navBar-icon" @click.prevent="colorPickerClicked = !colorPickerClicked" fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 7h14c.6 0 1-.4 1-1s-.4-1-1-1H5c-.6 0-1 .4-1 1s.4 1 1 1zm0 6h14c.6 0 1-.4 1-1s-.4-1-1-1H5c-.6 0-1 .4-1 1s.4 1 1 1zm0 6h14c.6 0 1-.4 1-1s-.4-1-1-1H5c-.6 0-1 .4-1 1s.4 1 1 1z" /></svg>
-        <div class="temp-controller">
-          <span :class="(clickedTemp ==='c')?'clickedTemp':''">°C</span>
-          <el-switch @change="setTemp" v-model="clickedTemp" active-color="#3c3c3c54" inactive-color="#3c3c3c54" active-value="f"
-            inactive-value="c"></el-switch>
-          <span :class="(clickedTemp ==='f')?'clickedTemp':''">°F</span>
-        </div>
-        <nav>
-          <router-link to="/">Weather</router-link>
-          <router-link to="/favorites">Favorites</router-link>
-        </nav>
-      </header>
+      <AppHeader @colorPClicked="setColorPicker"/>
       <router-view />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import ColorPicker from './components/color-picker.vue';
+import ColorPicker from './components/Color-picker.vue';
+import AppHeader from './components/App-header.cmp.vue';
 
 
 export default {
   name: "App",
   data() {
     return {
-      clickedTemp: null,
-      colorPickerClicked: false,
-      color: ''
+      color: '',
+      colorPickerClicked: false
     };
   },
   created() {
     this.setFirstColor()
-    this.clickedTemp = this.$store.getters.tempType;
   },
   methods: {
     setFirstColor() {
@@ -49,7 +36,7 @@ export default {
       this.$store.commit({ type: 'setBgc', color: this.color })
       this.$store.commit({ type: 'setColorNum', num })
     },
-    setColor(num:number) {
+    setColor(num: number) {
       let className = 'sky-gradient-';
       className += (num < 10) ? `0${num}` : num;
       if (num <= 5 || num >= 20) {
@@ -57,11 +44,7 @@ export default {
       }
       this.color = className;
     },
-    async setTemp() {
-      await this.$store.commit({type:'setTempType', temp: this.clickedTemp})
-
-    },
-    hoverColor(num:number) {
+    hoverColor(num: number) {
       this.setColor(num)
     },
     unhoverColor() {
@@ -70,18 +53,51 @@ export default {
     },
     closePicker() {
       this.colorPickerClicked = false;
+    },
+    setColorPicker(isClicked: Boolean) {
+      this.colorPickerClicked = isClicked;
     }
   },
   computed: {
-    setBgcColor():string {
+    setBgcColor(): string {
       let num = this.$store.getters.colorNum;
       return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
-    }
+    },
+
 
   },
-  components: { ColorPicker }
+  components: { ColorPicker, AppHeader }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "./src/styles/setup/_mixins.scss";
+@import "./src/styles/setup/_typography.scss";
+@import "./src/styles/setup/_variables.scss";
+
+#app {
+
+  font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: none;
+  display: flex;
+
+
+
+
+  .colorPicker {
+    transition: all 0.8s ease;
+    transition-delay: 20ms;
+  }
+
+  .app-container {
+    width: 100%;
+  }
+
+}
 </style>

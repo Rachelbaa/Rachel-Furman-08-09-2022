@@ -2,51 +2,16 @@
   <section class="favorites-card">
     <div @click.stop="setCurrCard" class="favorite-card" :class="[setRandomImageClass, setBgcColor()]">
       <button @click.stop="removeFromFavorites">X</button>
-      <div class="curr-day-details-container">
-        <div> {{cityData.mainWeather.WeatherText}} </div>
-        <div> {{cityData.locationData.LocalizedName}} </div>
-        <div>
-          <p v-if="tempType === 'c'">{{cityData.mainWeather.Temperature.Metric.Value}} °C</p>
-          <p v-else>{{cityData.mainWeather.Temperature.Imperial.Value}} °F</p>
-        </div>
-        <div></div>
-      </div>
-      <div class="future-details-container">
-        <div class="flex space-between">
-          <div>{{skipDay(1)}}</div>
-          <div class="flex"> <img :src="require(`@/assets/icons/${cityData.dailyForecasts[0].Day.Icon}.png`)">
-
-            <div class="temp-box" v-if="tempType === 'c'">
-              <span>{{convertToC(cityData.dailyForecasts[0].Temperature.Minimum.Value)}}° |
-                {{convertToC(cityData.dailyForecasts[0].Temperature.Maximum.Value)}}°</span>
-            </div>
-            <div class="temp-box" v-else>
-              <span>{{cityData.dailyForecasts[0].Temperature.Minimum.Value}}° |
-                {{cityData.dailyForecasts[0].Temperature.Maximum.Value}}°</span>
-            </div>
-          </div>
-        </div>
-        <div class="flex space-between">
-          <div>{{skipDay(2)}}</div>
-          <div class="flex"> <img :src="require(`@/assets/icons/${cityData.dailyForecasts[0].Day.Icon}.png`)">
-
-            <div class="temp-box" v-if="tempType === 'c'">
-              <span>{{convertToC(cityData.dailyForecasts[1].Temperature.Minimum.Value)}}° |
-                {{convertToC(cityData.dailyForecasts[1].Temperature.Maximum.Value)}}°</span>
-            </div>
-            <div class="temp-box" v-else>
-              <span>{{cityData.dailyForecasts[1].Temperature.Minimum.Value}}° |
-                {{cityData.dailyForecasts[1].Temperature.Maximum.Value}}°</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CurrdayDetails :cityData="cityData" />
+      <FutureDetails :cityData="cityData" />
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import moment from 'moment';
+
+import CurrdayDetails from './Currday-details.cmp.vue';
+import FutureDetails from './Future-details.cmp.vue';
 
 export default {
   props: {
@@ -56,40 +21,104 @@ export default {
     }
   },
   computed: {
-    tempType(): string {
-      return this.$store.getters.tempType;
-    },
     setRandomImageClass() {
       return `img-${this.getRandomInt(4)}`;
     }
   },
   methods: {
-    skipDay(num: number) {
-      return moment().add(num, 'day').format('ddd')
-    },
-    convertToC(num: number) {
-      let c = (num - 32) * 5 / 9
-      return Math.floor(c);
-    },
     setCurrCard() {
-      this.$store.commit('setCurrCard', { cityWeather: this.cityData })
-      this.$router.push('/')
+      this.$store.commit("setCurrCard", { cityWeather: this.cityData });
+      this.$router.push("/");
     },
     removeFromFavorites() {
-      this.$store.dispatch({ type: 'toggleFavorite', currCard: this.cityData })
+      this.$store.dispatch({ type: "toggleFavorite", currCard: this.cityData });
     },
     setBgcColor() {
       let num = this.$store.getters.colorNum;
-      return (num <= 5 || num >= 20) ? 'darkTheme' : 'lightTheme';
+      return (num <= 5 || num >= 20) ? "darkTheme" : "lightTheme";
     },
     getRandomInt(max: number) {
       return Math.floor(Math.random() * max);
     }
   },
+  components: { CurrdayDetails, FutureDetails }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import "./src/styles/setup/_mixins.scss";
+@import "./src/styles/setup/_typography.scss";
+@import "./src/styles/setup/_variables.scss";
 
+.favorite-card {
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  min-width: 300px;
+  height: 400px;
+  color: white;
+  margin: 30px;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  padding-top: 70px;
+  text-align: center;
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  border-radius: 8px;
+  width: 88vw;
+
+  @include for-narrow-layout {
+    width: 30vw;
+  }
+
+  @include for-normal-layout {
+    width: 30vw;
+  }
+
+  @include for-wide-layout {
+    width: 45vw;
+  }
+  
+
+  &.darkTheme {
+        background-color: rgba(37, 37, 37, 0.8);
+  }
+  &.img-1 {
+    background-image: url('@/assets/favorites-bg/1.jpg');
+  }
+
+  &.img-2 {
+    background-image: url('@/assets/favorites-bg/2.jpg');
+  }
+
+  &.img-3 {
+    background-image: url('@/assets/favorites-bg/3.jpg');
+  }
+
+  &.img-0 {
+    background-image: url('@/assets/favorites-bg/0.jpg');
+  }
+
+
+  button {
+    background-color: transparent;
+    color: grey;
+    border: none;
+    width: 40px;
+    font-size: 1.3rem;
+    position: absolute;
+    right: 2px;
+    top: 9px;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(255, 255, 255);
+    }
+  }
+
+
+}
 </style>
